@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+	<script type="text/javascript" src="js/main.js"></script>
+	<link rel="stylesheet" href="css/styles.css">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
 <body>
 
-<center><h1>A Better Way to Split the Bill</h1></center>
+<h1>A Better Way to Split the Bill</h1>
 
-<form action="demo_form.asp">
-  <input type="file" name="pic" accept="image/*">
-  <input type="submit">
-</form>
+<div class="buttons">
 
+  <label class="btn btn-primary btn-file">
+    Browse <input type="file" style="display: none;">
+</label>
+<button disabled="true"class="btn btn-success" type="button">
+  Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+</button>
+
+</div>
+
+<div class="credit">
+Credit
+
+</br>
+<i class="names">
+Kartikye Mittal </br>
+Kartikye Mittal </br>
+Kartikye Mittal </br>
+Kartikye Mittal
+</i>
+</div>
 
 </body>
 </html>
