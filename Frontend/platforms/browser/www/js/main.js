@@ -17,7 +17,7 @@ app.controller('mainCtrl', ['$scope', function($scope) {
 	}
 
 	$scope.uploadImage = function(img) {
-		var imgdata = img.replace(/.*,/, '');
+		var imgdata = img.replace(/.*,/, '')
  	     $.ajax({
 			url: "https://api.imgur.com/3/upload",
 			type: "POST",
@@ -25,12 +25,24 @@ app.controller('mainCtrl', ['$scope', function($scope) {
 			data: {image: imgdata},
 			success: function(result) {
               var id = result.data.id;
-              var url 'https://imgur.com/gallery/' + id;
+              $scope.submitLink('http://i.imgur.com/' + id + '.jpg');
             },
 			beforeSend: function (xhr) {
 			    xhr.setRequestHeader("Authorization", "Client-ID 47b80fa9d95a5be");
 			}
 		});;
 	    
+	}
+		$scope.submitLink = function(url) {
+		$.ajax({
+			url: "http://162.243.140.149:5000/",
+			type: "GET",
+			data: {data: url},
+			success: function(result) {
+              console.log(result);
+            }, error : function(r) {
+            	console.log(r);
+            }
+		});;
 	}
 }]);
