@@ -2,6 +2,8 @@ var app = angular.module('Calhacks', []);
 
 app.controller('mainCtrl', ['$scope', function($scope) {
 
+$scope.loading = false;
+
 	$scope.disable = true;
 	$scope.fileNameChanged = function (elem) {
 	  var file = elem;
@@ -9,6 +11,7 @@ app.controller('mainCtrl', ['$scope', function($scope) {
 	}
 
 	$scope.submit = function() {
+		$scope.loading = true;
  	   var FR = new FileReader();
  	   FR.onload = function(e) {
  	   	$scope.uploadImage(e.target.result);
@@ -40,8 +43,10 @@ app.controller('mainCtrl', ['$scope', function($scope) {
 			data: {data: url},
 			success: function(result) {
               console.log(result);
+              $scope.loading = false;
             }, error : function(r) {
             	console.log(r);
+            	$scope.loading = false;
             }
 		});;
 	}
