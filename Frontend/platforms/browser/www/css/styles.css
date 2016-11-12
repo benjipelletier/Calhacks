@@ -1,0 +1,44 @@
+html {
+	
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+    color: #333;
+    background-color: #FAEBD7;
+
+}
+
+body {
+	display: inline;
+	text-align: center;
+	background-color: #FAEBD7;
+}
+
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	margin-bottom: 100px;
+
+}
+
+.buttons, .credit {
+	text-align: center;
+}
+
+.btn {
+	width: 100px;
+}
+.credit {
+	margin-top: 50px;
+	font-size:  20px;
+	font-weight: 400;
+
+}
+
+.names {
+	font-size:  15px;
+	font-weight: 200;
+	color: rgba(0, 0, 0, 0.5)
+}
+
+.buttons {
+	margin-top: 50px;
+}
