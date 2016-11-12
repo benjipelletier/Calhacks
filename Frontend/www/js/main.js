@@ -25,7 +25,7 @@ app.controller('mainCtrl', ['$scope', function($scope) {
 			data: {image: imgdata},
 			success: function(result) {
               var id = result.data.id;
-              $scope.submitLink('https://imgur.com/gallery/' + id);
+              $scope.submitLink('http://i.imgur.com/' + id + '.jpg');
             },
 			beforeSend: function (xhr) {
 			    xhr.setRequestHeader("Authorization", "Client-ID 47b80fa9d95a5be");
