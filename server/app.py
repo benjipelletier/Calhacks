@@ -6,7 +6,7 @@ headers = {
 }
 
 r = requests.post('https://api.projectoxford.ai/vision/v1/ocr',
-        json = {"Url": 'https://scontent-sjc2-1.xx.fbcdn.net/v/t34.0-12/15050115_10154210310490889_1182004456_n.jpg?oh=c49c2ad5e202d1f8cc99b02a081d76a6&oe=58298811'}, headers = headers)
+        json = {"Url":""}, headers = headers)
 
 result = r.json()
 
