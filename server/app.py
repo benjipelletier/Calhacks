@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 import requests, json, re
 from flask_cors import CORS, cross_origin
@@ -11,9 +11,9 @@ def index():
     print(request.args.get('data'))
     if request.method == 'GET':
         img_url = request.args.get('data')
-        #result = betterSplit(img_url)
-        #return result
-        return "hiiii"
+        result = betterSplit(img_url)
+        print(result)
+        return jsonify(result)
     else:
         return "hello"
 
