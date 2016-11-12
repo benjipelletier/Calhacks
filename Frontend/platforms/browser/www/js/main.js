@@ -44,9 +44,11 @@ $scope.loading = false;
 			success: function(result) {
               console.log(result);
               $scope.loading = false;
+              $scope.$apply();
             }, error : function(r) {
             	console.log(r);
             	$scope.loading = false;
+            	$scope.$apply();
             }
 		});;
 	}
