@@ -28,13 +28,10 @@ def betterSplit(image):
 
     result = r.json()
 
-    def bounding_box_to_arr(bounding):
-        return bounding.split(',')
-
     def replace_all_bounding(obj):
         if isinstance(obj, dict):
             if "boundingBox" in obj:
-                obj['boundingBox'] = bounding_box_to_arr(obj['boundingBox'])
+                obj['boundingBox'] = obj['boundingBox'].split(',')
             if 'lines' in obj:
                 replace_all_bounding(obj['lines'])
             if 'words' in obj:
