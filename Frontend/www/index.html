@@ -19,7 +19,7 @@
 <body ng-controller="mainCtrl">
 
 <h1>A Better Way to Split the Bill</h1>
-
+<div id="loading-bar-container"></div>
 <div class="buttons">
 
   <label class="btn btn-primary btn-file">
@@ -29,6 +29,8 @@
   Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 </button>
 </div>
+
+<div ng-show="loading" class="loader">Loading...</div>
 
 <div class="credit">
 Credit
