@@ -27,7 +27,7 @@ def betterSplit(image):
             json = {"Url": image}, headers = headers)
 
     result = r.json()
-
+    
     def replace_all_bounding(obj):
         if isinstance(obj, dict):
             if "boundingBox" in obj:
@@ -71,8 +71,8 @@ def betterSplit(image):
         return False
 
     for l in lines:
-        lower = dict_range(int(l)-2,2,fixed_lines)
-        higher = dict_range(int(l)+1,2, fixed_lines)
+        lower = dict_range(int(l)-5,5,fixed_lines)
+        higher = dict_range(int(l)+1,5, fixed_lines)
         if lower:
             fixed_lines[lower].extend(lines[l])
         elif higher:
@@ -96,8 +96,6 @@ def betterSplit(image):
         j = [x[0] for x in i]
         fixed_lines_as_array_with_string.append(" ".join(j))
 
-    print(fixed_lines_as_array_with_string)
-
     for i in fixed_lines:
         number = False
         text = False
@@ -111,7 +109,26 @@ def betterSplit(image):
                 text = True
         if number and text:
             important_lines[i] = fixed_lines[i]
+    
+    reciept = {'items':[],'total':None}
+    
+    for i in fixed_lines_as_array_with_string:
+        r = requests.get("https://api.wit.ai/message?v=20161112&q="+i+"&access_token=ZIULONOT7SHPJ4AUAKPMK5FXGJSZ2Q3L")
+        r = r.json()
+        print(r['outcomes'][0]['intent'])
+        if r['outcomes'][0]['confidence'] > .5:
+            if r['outcomes'][0]['intent'] == "Item":
+                try:
+                    float(r['outcomes'][0]['entities']['price'][0]['value'])
+                    reciept['items'].append([r['outcomes'][0]['entities']['item'][0]['value'],r['outcomes'][0]['entities']['price'][0]['value']])
+                except:
+                    pass
+            elif r['outcomes'][0]['intent'] == "Total":
+                try:
+                    reciept['total'] = r['outcomes'][0]['entities']['price'][0]['value']
+                except:
+                    pass
 
-    return fixed_lines_as_array_with_string
+    return reciept
 
 app.run(host="0.0.0.0")
