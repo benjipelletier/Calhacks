@@ -2,47 +2,87 @@
 <html ng-app="Calhacks">
 
 <head>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
-	<link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
 
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 </head>
 
 <body ng-controller="mainCtrl">
 
-<h1>A Better Way to Split the Bill</h1>
-<div id="loading-bar-container"></div>
-<div class="buttons">
+    <h1>A Better Way to Split the Bill</h1>
 
-  <label class="btn btn-primary btn-file">
-    Browse <input type="file" name="file" id="file" onchange="angular.element(this).scope().fileNameChanged(this)" style="display: none;">
-</label>
-<button disabled="true" ng-click="submit()" id="submit" class="btn btn-success" type="button" style="outline: none;">
-  Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-</button>
+    <div class="buttons">
+
+        <label class="btn btn-primary btn-file blue">
+            Browse
+            <input type="file" name="file" id="file" onchange="angular.element(this).scope().fileNameChanged(this)" style="display: none;">
+        </label>
+        <button disabled="true" ng-click="submit()" id="submit"  class="green btn btn-success" type="button" style="outline: none;">
+            Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <div ng-show="loading" class="loader">Loading...</div>
+<div class="container" >
+    <table class="flat-table three">
+	<thead>
+		<th class="3">Item</th>
+		<th>Price</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="n in lst1 track by $index">
+			<td>{{n[0]}}</td>
+			<td>{{n[1]}}</td>
+		</tr>
+	</tbody>
+</table>
+
+    <table class="flat-table three">
+	<thead>
+		<th class="3">Item</th>
+		<th>Price</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="n in lst2 track by $index">
+			<td>{{n[0]}}</td>
+			<td>{{n[1]}}</td>
+		</tr>
+	</tbody>
+</table>
+
+    <table class="flat-table three">
+	<thead>
+		<th class="3">Item</th>
+		<th>Price</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="n in lst3 track by $index">
+			<td>{{n[0]}}</td>
+			<td>{{n[1]}}</td>
+		</tr>
+	</tbody>
+</table>
 </div>
 
-<div ng-show="loading" class="loader">Loading...</div>
 
-<div class="credit">
-Credit
+    <div class="credit">
+        Credit
 
-</br>
-<i class="names">
+        </br>
+        <i class="names">
 Kartikye Mittal </br>
 Kartikye Mittal </br>
 Kartikye Mittal </br>
 Kartikye Mittal
 </i>
-</div>
+    </div>
 
 </body>
+
 </html>

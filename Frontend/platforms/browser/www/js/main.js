@@ -3,7 +3,7 @@ var app = angular.module('Calhacks', []);
 app.controller('mainCtrl', ['$scope', function($scope) {
 
 $scope.loading = false;
-
+$scope.finalData = [];
 	$scope.disable = true;
 	$scope.fileNameChanged = function (elem) {
 	  var file = elem;
@@ -42,7 +42,7 @@ $scope.loading = false;
 			type: "GET",
 			data: {data: url},
 			success: function(result) {
-              console.log(result);
+              $scope.finalData = result;
               $scope.loading = false;
               $scope.$apply();
             }, error : function(r) {

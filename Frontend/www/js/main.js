@@ -2,8 +2,10 @@ var app = angular.module('Calhacks', []);
 
 app.controller('mainCtrl', ['$scope', function($scope) {
 
-$scope.loading = false;
+$scope.shapes = [];
 
+$scope.loading = false;
+$scope.finalData = [];
 	$scope.disable = true;
 	$scope.fileNameChanged = function (elem) {
 	  var file = elem;
@@ -31,7 +33,7 @@ $scope.loading = false;
               $scope.submitLink('http://i.imgur.com/' + id + '.jpg');
             },
 			beforeSend: function (xhr) {
-			    xhr.setRequestHeader("Authorization", "Client-ID 47b80fa9d95a5be");
+			    xhr.setRequestHeader("Authorization", "Client-ID 23beebdb5fe43d5");
 			}
 		});;
 	    
@@ -42,8 +44,10 @@ $scope.loading = false;
 			type: "GET",
 			data: {data: url},
 			success: function(result) {
-              console.log(result);
+				console.log(result);
+              $scope.finalData = result;
               $scope.loading = false;
+              $scope.changeData();
               $scope.$apply();
             }, error : function(r) {
             	console.log(r);
@@ -52,4 +56,31 @@ $scope.loading = false;
             }
 		});;
 	}
+
+	$scope.changeData = function() {
+		$scope.lst1 = [];
+		$scope.lst2 = [];
+		$scope.lst3 = [];
+
+		for (var i=0; i < $scope.finalData.items.length; i++) {
+			if ($scope.finalData.items[i][0].startsWith("*")) {
+				$scope.lst1.push($scope.finalData.items[i]);
+			}
+		} 
+		for (var i=0; i < $scope.finalData.items.length; i++) {
+			if ($scope.finalData.items[i][0].startsWith("#")) {
+				$scope.lst2.push($scope.finalData.items[i]);
+			}
+		} 
+		for (var i=0; i < $scope.finalData.items.length; i++) {
+			if ($scope.finalData.items[i][0].startsWith("^")) {
+				$scope.lst3.push($scope.finalData.items[i]);
+			}
+		} 
+		$scope.shapes = [$scope.lst1, $scope.lst2, $scope.lst3];
+		console.log($scope.shapes)
+		
+	}
+
+
 }]);

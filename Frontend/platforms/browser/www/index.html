@@ -19,18 +19,20 @@
 <body ng-controller="mainCtrl">
 
 <h1>A Better Way to Split the Bill</h1>
-<div id="loading-bar-container"></div>
+
 <div class="buttons">
 
-  <label class="btn btn-primary btn-file">
+  <label class="btn btn-primary btn-file blue">
     Browse <input type="file" name="file" id="file" onchange="angular.element(this).scope().fileNameChanged(this)" style="display: none;">
 </label>
-<button disabled="true" ng-click="submit()" id="submit" class="btn btn-success" type="button" style="outline: none;">
+<button disabled="true" ng-click="submit()" id="submit" class="green btn btn-success" type="button" style="outline: none;">
   Submit <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 </button>
 </div>
 
 <div ng-show="loading" class="loader">Loading...</div>
+{{finalData.items}}
+
 
 <div class="credit">
 Credit
