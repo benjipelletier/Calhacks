@@ -47,17 +47,14 @@ def betterSplit(image):
     }
 
     r = requests.post('https://api.projectoxford.ai/vision/v1/ocr',
-            json = {"Url": 'https://scontent-sjc2-1.xx.fbcdn.net/v/t34.0-12/15050115_10154210310490889_1182004456_n.jpg?oh=c49c2ad5e202d1f8cc99b02a081d76a6&oe=58298811'}, headers = headers)
+            json = {"Url": image}, headers = headers)
 
     result = r.json()
-
-    def bounding_box_to_arr(bounding):
-        return bounding.split(',')
-
+    
     def replace_all_bounding(obj):
         if isinstance(obj, dict):
             if "boundingBox" in obj:
-                obj['boundingBox'] = bounding_box_to_arr(obj['boundingBox'])
+                obj['boundingBox'] = obj['boundingBox'].split(',')
             if 'lines' in obj:
                 replace_all_bounding(obj['lines'])
             if 'words' in obj:
@@ -97,8 +94,8 @@ def betterSplit(image):
         return False
 
     for l in lines:
-        lower = dict_range(int(l)-2,2,fixed_lines)
-        higher = dict_range(int(l)+1,2, fixed_lines)
+        lower = dict_range(int(l)-5,5,fixed_lines)
+        higher = dict_range(int(l)+1,5, fixed_lines)
         if lower:
             fixed_lines[lower].extend(lines[l])
         elif higher:
@@ -109,6 +106,18 @@ def betterSplit(image):
             fixed_lines[l] = lines[l]
 
     important_lines = {}
+    
+    fixed_lines_as_array = []
+    for i in fixed_lines:
+        fixed_lines_as_array.append((fixed_lines[i],i))
+    fixed_lines_as_array = sorted(fixed_lines_as_array, key=lambda x: int(x[1]))
+    
+    fixed_lines_as_array_with_string = []
+
+    for i in fixed_lines_as_array:
+        i = sorted(i[0], key=lambda x: int(x[1]))
+        j = [x[0] for x in i]
+        fixed_lines_as_array_with_string.append(" ".join(j))
 
     for i in fixed_lines:
         number = False
@@ -123,9 +132,12 @@ def betterSplit(image):
                 text = True
         if number and text:
             important_lines[i] = fixed_lines[i]
+            
+    for i in fixed_lines_as_array_with_string:
+        r = requests.get("https://api.wit.ai/message?v=20161112&q="+i+"&access_token=ZIULONOT7SHPJ4AUAKPMK5FXGJSZ2Q3L")
+        print(r.json())
 
-    for i in important_lines:
-        print(important_lines[i])
+    return fixed_lines_as_array_with_string
 
 
 
