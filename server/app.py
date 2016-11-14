@@ -28,6 +28,8 @@ def betterSplit(image):
             json = {"Url": image}, headers = headers)
 
     result = r.json()
+
+    print("hello",result)
     
     text_bounding = []
 
@@ -150,6 +152,5 @@ def betterSplit(image):
 
 
     return reciept
-betterSplit("https://lh3.googleusercontent.com/VjvURATc7n41UTNjNtlUgURzJGEWHYrpjuXVsH-cd7KS8yORABUU4lLaiGcxATfWNT0acCBZ1gBy_uTbsYHluSaHYg02ib1gcW7Nivg0Gfk-5mKfErvu2_y_SIvsEb5BdBHZElq8C9ROriwhvZuOTt_nXJ8DgmWGNWKuhbPxGZNAJpNr2gLLlmp4paehI75G6il8ZHVOc1GPqZldd49S1At2aoOAH5OLbyNKfEoJokLXgx0u7Qbc_ykZsQ0_In29t0NXxzO3UevtzPldfEb6cryuz46EAoe5XeeiHaZUyqqOOGAfIWPyQU0L_BIeDws0MFJMjA8ipMHDNx2_eIi17BRN7CMGVuUvRG3QcUAif62ViWcgaObx2migHE0mS1_lP3cCbA0fnvQbvvZ-eFN_tv3EPtiX8-bdujiCQBJjIMvD9wYZTGoJFmxgqpuu5zUyp3kiXZ4oQAkXehQwS_uIRzW1ZUiKTfA0GXjDEkwe-gY8lffL5eXuOwRKHBf18nOz-Z7q_CkDcg_Wg_zh55biMOvDWwf9gWSrUwI3kI0gjoF9q8CuDIB66a3oEdV109ziXnCviNYVwLiZo9EDsk4ZaLPRYCQewMo77uf5y7Xp_-6m6_FN=w713-h950-no")
-
+betterSplit("https://lh3.googleusercontent.com/z9DvcxTAY3zFXhlJqcKb6ma0f6Xu9hLNloHAI_iIzvhkAHY6ktJFN99tuu3-25lNacE_cphmRWP2kVAfBVcoH1ZQqAPhx0Z-QF5OwQIi29MteoAJ6P2sxXqrxigtbNr9nsy9oX9jaP0Mg_6JpQtdmDg1Un_UWtPf3Th_dgcPIlPAeAQWoYX6gbcqWXr1Y0JVzlekUGISPrrM1CbGWGW0lgQ9gdMQ1kZmWPd8PVE-yQZ4cwMrXOuyf31npAnB7sHAOVoPnSrrav3H0xMcKz94n3VqUmqr77V1CO2LoJ5nQZZ9Oa5yCye63zY6op1yTpQUh760m8ng60aV3lRGtlrRHy52IAaU7H8s4uEynrT7rBGCu8CuD6xJnFW8iIWGg8Ne-xgkqNF1NRIxwouFEL2TYCZa00IJ1sh6VuEiTjwx24G8jkBF8-q4jDrwUZPYqaf6j8XVsNxnqB3HAOREdpvBfsemTrfKUwgmeQpNhSd66-fSY1swCCz24_io-CwkD0J6JjeWlJk1OpPJ6_VC89zfmxYuSPxeh_HzbUV__r0ylFXC2uapi_vpSX5Y79uj7NuZQyMni40=s950-w713-h950-no")
 #app.run(host="0.0.0.0")
