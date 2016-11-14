@@ -3,6 +3,7 @@ from flask import Flask, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 import requests, json, re
 from flask_cors import CORS, cross_origin
+import img2
 
 app = Flask(__name__)
 CORS(app)
@@ -28,6 +29,8 @@ def betterSplit(image):
 
     result = r.json()
     
+    text_bounding = []
+
     def replace_all_bounding(obj):
         if isinstance(obj, dict):
             if "boundingBox" in obj:
@@ -35,12 +38,17 @@ def betterSplit(image):
             if 'lines' in obj:
                 replace_all_bounding(obj['lines'])
             if 'words' in obj:
-                replace_all_bounding(obj['words'])            
+                for i in obj['words']:
+                    bb = i['boundingBox'].split(',')
+                    text_bounding.append(bb)
+                replace_all_bounding(obj['words'])         
         elif isinstance(obj, list):
             for i in obj:
                 replace_all_bounding(i)
 
     replace_all_bounding(result['regions'])
+
+    circles, squares, diamonds, triangles = img2.clearImg(text_bounding,image)
 
     lines = {}
 
@@ -48,10 +56,10 @@ def betterSplit(image):
         if isinstance(obj, dict):
             if 'text' in obj:
                 if obj['boundingBox'][1] in lines:
-                    lines[obj['boundingBox'][1]].append((obj['text'], obj['boundingBox'][0]))
+                    lines[obj['boundingBox'][1]].append([obj['text'], obj['boundingBox'][0]])
                 else:
                     lines[obj['boundingBox'][1]] = []
-                    lines[obj['boundingBox'][1]].append((obj['text'], obj['boundingBox'][0]))
+                    lines[obj['boundingBox'][1]].append([obj['text'], obj['boundingBox'][0]])
             if 'lines' in obj:
                 pic_to_dic(obj['lines'])
             if 'words' in obj:
@@ -81,42 +89,61 @@ def betterSplit(image):
             fixed_lines[str(l)]
         else:
             fixed_lines[l] = lines[l]
-
-    important_lines = {}
     
     fixed_lines_as_array = []
     for i in fixed_lines:
-        fixed_lines_as_array.append((fixed_lines[i],i))
+        fixed_lines_as_array.append([fixed_lines[i],i])
     fixed_lines_as_array = sorted(fixed_lines_as_array, key=lambda x: int(x[1]))
-    
+
     fixed_lines_as_array_with_string = []
 
     for i in fixed_lines_as_array:
-        i = sorted(i[0], key=lambda x: int(x[1]))
-        j = [x[0] for x in i]
-        fixed_lines_as_array_with_string.append(" ".join(j))
-    
+        v = [sorted(i[0], key=lambda x: int(x[1])),i[1]]
+        j = [x[0] for x in v[0]]
+        fixed_lines_as_array_with_string.append([" ".join(j),i[1]])
+
     reciept = {'items':[],'total':None}
     
     for i in fixed_lines_as_array_with_string:
-        r = requests.get("https://api.wit.ai/message?v=20161112&q="+i+"&access_token=ZIULONOT7SHPJ4AUAKPMK5FXGJSZ2Q3L")
+        print(i)
+        r = requests.get("https://api.wit.ai/message?v=20161112&q="+i[0]+"&access_token=ZIULONOT7SHPJ4AUAKPMK5FXGJSZ2Q3L")
         r = r.json()
-        print(r['outcomes'][0]['intent'])
         if r['outcomes'][0]['confidence'] > .5:
             if r['outcomes'][0]['intent'] == "Item":
                 try:
                     float(r['outcomes'][0]['entities']['price'][0]['value'])
-                    reciept['items'].append([r['outcomes'][0]['entities']['item'][0]['value'],r['outcomes'][0]['entities']['price'][0]['value']])
+                    reciept['items'].append([r['outcomes'][0]['entities']['item'][0]['value'],r['outcomes'][0]['entities']['price'][0]['value'],i[1]])
                 except:
-                    pass
+                    print("NOOO")
             elif r['outcomes'][0]['intent'] == "Total":
                 try:
                     reciept['total'] = r['outcomes'][0]['entities']['price'][0]['value']
                 except:
                     pass
 
-    return reciept
->>>>>>> e80de806a13fabf3ab5e559933df248f8c6785f9
+    for i in circles:
+        for j in reciept['items']:
+            if abs(int(j[2])-i) < 6:
+                j.append("circle")
 
+    for i in squares:
+        for j in reciept['items']:
+            if abs(int(j[2])-i) < 6:
+                j.append("square")
+
+    for i in triangles:
+        for j in reciept['items']:
+            if abs(int(j[2])-i) < 6:
+                j.append("triangle")
+
+    for i in diamonds:
+        for j in reciept['items']:
+            if abs(int(j[2])-i) < 6:
+                j.append("diamond")
+
+    for i in reciept['items']:
+        print(i)
+
+    return reciept
 
 app.run(host="0.0.0.0")
