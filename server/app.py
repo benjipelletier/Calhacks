@@ -105,7 +105,6 @@ def betterSplit(image):
     reciept = {'items':[],'total':None}
     
     for i in fixed_lines_as_array_with_string:
-        print(i)
         r = requests.get("https://api.wit.ai/message?v=20161112&q="+i[0]+"&access_token=ZIULONOT7SHPJ4AUAKPMK5FXGJSZ2Q3L")
         r = r.json()
         if r['outcomes'][0]['confidence'] > .5:
@@ -121,29 +120,36 @@ def betterSplit(image):
                 except:
                     pass
 
+    print("c",len(circles),"t",len(triangles),"s",len(squares),"d",len(diamonds))
+    print(squares)
+
     for i in circles:
         for j in reciept['items']:
-            if abs(int(j[2])-i) < 6:
+            if abs(int(j[2])-i) < 8:
                 j.append("circle")
 
     for i in squares:
         for j in reciept['items']:
-            if abs(int(j[2])-i) < 6:
+            if abs(int(j[2])-i) < 8:
                 j.append("square")
 
     for i in triangles:
         for j in reciept['items']:
-            if abs(int(j[2])-i) < 6:
+            if abs(int(j[2])-i) < 8:
                 j.append("triangle")
 
     for i in diamonds:
         for j in reciept['items']:
-            if abs(int(j[2])-i) < 6:
+            if abs(int(j[2])-i) < 8:
                 j.append("diamond")
 
     for i in reciept['items']:
         print(i)
+        i.pop(2)
+        print(i)
+
 
     return reciept
+betterSplit("https://lh3.googleusercontent.com/VjvURATc7n41UTNjNtlUgURzJGEWHYrpjuXVsH-cd7KS8yORABUU4lLaiGcxATfWNT0acCBZ1gBy_uTbsYHluSaHYg02ib1gcW7Nivg0Gfk-5mKfErvu2_y_SIvsEb5BdBHZElq8C9ROriwhvZuOTt_nXJ8DgmWGNWKuhbPxGZNAJpNr2gLLlmp4paehI75G6il8ZHVOc1GPqZldd49S1At2aoOAH5OLbyNKfEoJokLXgx0u7Qbc_ykZsQ0_In29t0NXxzO3UevtzPldfEb6cryuz46EAoe5XeeiHaZUyqqOOGAfIWPyQU0L_BIeDws0MFJMjA8ipMHDNx2_eIi17BRN7CMGVuUvRG3QcUAif62ViWcgaObx2migHE0mS1_lP3cCbA0fnvQbvvZ-eFN_tv3EPtiX8-bdujiCQBJjIMvD9wYZTGoJFmxgqpuu5zUyp3kiXZ4oQAkXehQwS_uIRzW1ZUiKTfA0GXjDEkwe-gY8lffL5eXuOwRKHBf18nOz-Z7q_CkDcg_Wg_zh55biMOvDWwf9gWSrUwI3kI0gjoF9q8CuDIB66a3oEdV109ziXnCviNYVwLiZo9EDsk4ZaLPRYCQewMo77uf5y7Xp_-6m6_FN=w713-h950-no")
 
-app.run(host="0.0.0.0")
+#app.run(host="0.0.0.0")
