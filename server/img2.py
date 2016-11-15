@@ -12,15 +12,15 @@ def clearImg(bounds,url):
 	diamonds = []
 	triangles = []
 
-	resp = urllib.request.urlopen(url)
-	image = np.asarray(bytearray(resp.read()), dtype="uint8")
-	img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-	b = cv2.imdecode(image, cv2.IMREAD_COLOR)
+	#resp = urllib.request.urlopen(url)
+	#image = np.asarray(bytearray(resp.read()), dtype="uint8")
+	#img = cv2.imdecode(image, cv2.IMREAD_COLOR)
+	#b = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
-	#img = cv2.imread("test.jpg")
-	#b = cv2.imread("test.jpg")
-	for i in bounds:
-		cv2.rectangle(img,(int(i[0]), int(i[1])),(int(i[0])+int(i[2]),int(i[1])+int(i[3])),(255,255,255), -1)
+	img = cv2.imread("res.png")
+	b = cv2.imread("res.png")
+	#for i in bounds:
+	#	cv2.rectangle(img,(int(i[0]), int(i[1])),(int(i[0])+int(i[2]),int(i[1])+int(i[3])),(255,255,255), -1)
 	img = cv2.medianBlur(img,5)
 	img = cv2.GaussianBlur(img, (5,5), 0)
 	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -28,14 +28,25 @@ def clearImg(bounds,url):
 	kernel = np.ones((3,3),np.uint8)
 	img = cv2.dilate(img,kernel,iterations = 1)
 	bin, contours, hierarchy = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+	symbols = []
 	for cnt in contours:
 		cnt_len = cv2.arcLength(cnt, True)
-		if cv2.contourArea(cnt) > 200:
-			print("first",len(cnt))
-		cnt = cv2.approxPolyDP(cnt, 0.067*cnt_len, True)
+		cnt = cv2.approxPolyDP(cnt, 0.04*cnt_len, True)
 		cnt = cnt.reshape(-1, 2)
-		if len(cnt) < 9 and cv2.contourArea(cnt) > 200 and cv2.contourArea(cnt) < 300000 and cv2.isContourConvex(cnt):
-			print(len(cnt))
+		if len(cnt) < 9 and cv2.contourArea(cnt) > 200 and cv2.contourArea(cnt) < 300000:
+			if len(symbols) == 0:
+				cv2.drawContours(b,[cnt], -1, (0, 0,255 ), 3 )
+				symbols.append([cnt])
+			else:
+				found = False
+				for i in range(0, len(symbols)):
+					if cv2.matchShapes(cnt,symbols[i][0],1,0.0) < .1 and not found:
+						symbols[i].append(cnt)
+						found = True
+				if not found:
+					symbols.append([cnt])
+
+			'''print(len(cnt))
 			cX,cY,w,h = cv2.boundingRect(cnt)
 			cv2.circle(b, (cX, cY), 3, (0, 255, 255), -1)
 			if len(cnt) == 3:
@@ -62,6 +73,15 @@ def clearImg(bounds,url):
 			else:
 				print(len(cnt))
 				cv2.drawContours(b, [cnt], -1, (255, 255,0 ), 3 )
-				circles.append(cY)
-			
+				circles.append(cY)'''
+	color = [50,50,50]
+	for i in range(len(symbols)):
+		cv2.drawContours(b, symbols[i], -1, tuple(color),3)
+		color[i%3] += 100
+	cv2.imshow("hi", b)
+	cv2.namedWindow('hi',cv2.WINDOW_NORMAL)
+	cv2.waitKey()
+	return symbols		
 	return circles, squares, diamonds, triangles
+
+clearImg(1,1)
