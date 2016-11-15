@@ -28,6 +28,8 @@ def betterSplit(image):
             json = {"Url": image}, headers = headers)
 
     result = r.json()
+
+    print("hello",result)
     
     text_bounding = []
 
@@ -150,6 +152,5 @@ def betterSplit(image):
 
 
     return reciept
-betterSplit("https://lh3.googleusercontent.com/VjvURATc7n41UTNjNtlUgURzJGEWHYrpjuXVsH-cd7KS8yORABUU4lLaiGcxATfWNT0acCBZ1gBy_uTbsYHluSaHYg02ib1gcW7Nivg0Gfk-5mKfErvu2_y_SIvsEb5BdBHZElq8C9ROriwhvZuOTt_nXJ8DgmWGNWKuhbPxGZNAJpNr2gLLlmp4paehI75G6il8ZHVOc1GPqZldd49S1At2aoOAH5OLbyNKfEoJokLXgx0u7Qbc_ykZsQ0_In29t0NXxzO3UevtzPldfEb6cryuz46EAoe5XeeiHaZUyqqOOGAfIWPyQU0L_BIeDws0MFJMjA8ipMHDNx2_eIi17BRN7CMGVuUvRG3QcUAif62ViWcgaObx2migHE0mS1_lP3cCbA0fnvQbvvZ-eFN_tv3EPtiX8-bdujiCQBJjIMvD9wYZTGoJFmxgqpuu5zUyp3kiXZ4oQAkXehQwS_uIRzW1ZUiKTfA0GXjDEkwe-gY8lffL5eXuOwRKHBf18nOz-Z7q_CkDcg_Wg_zh55biMOvDWwf9gWSrUwI3kI0gjoF9q8CuDIB66a3oEdV109ziXnCviNYVwLiZo9EDsk4ZaLPRYCQewMo77uf5y7Xp_-6m6_FN=w713-h950-no")
-
+betterSplit("http://i.imgur.com/kdP86KK.jpg")
 #app.run(host="0.0.0.0")
