@@ -78,9 +78,12 @@ def clearImg(bounds,url):
 	for i in range(len(symbols)):
 		cv2.drawContours(b, symbols[i], -1, tuple(color),3)
 		color[i%3] += 100
-	cv2.imshow("hi", b)
-	cv2.namedWindow('hi',cv2.WINDOW_NORMAL)
-	cv2.waitKey()
+	
+	for i in symbols:
+		for j in symbols:
+			cX,cY,w,h = cv2.boundingRect(j)
+			j = [cX, cY, w, h]
+
 	return symbols		
 	return circles, squares, diamonds, triangles
 

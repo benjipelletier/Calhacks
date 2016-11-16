@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import requests, json, re
 from flask_cors import CORS, cross_origin
 import img2
+import deskew
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +20,9 @@ def index():
         return "hello"
 
 def betterSplit(image):
+
+    image = deskew.deskew(image)
+
     headers = {
         'Ocp-Apim-Subscription-Key': '20fb739c7d1a41cd9ec66b1ab9713600',
         'Content-Type': 'application/json',

@@ -65,7 +65,7 @@ def four_point_transform(image, pts):
 	# return the warped image
 	return warped
 
-def flatten(url):
+def deskew(url):
 	# load the image and compute the ratio of the old height
 	# to the new height, clone it, and resize it
 	resp = urllib.request.urlopen(url)
@@ -118,5 +118,3 @@ def flatten(url):
 	r = requests.post("https://api.imgur.com/3/image", data={'image':encoded_string}, headers={"Authorization":"Client-ID 23beebdb5fe43d5"})
 	url = r.json()['data']['link']
 	return url
-
-print(flatten(1))
