@@ -5,6 +5,7 @@ import requests, json, re
 from flask_cors import CORS, cross_origin
 import img2
 import deskew
+import cv2
 
 app = Flask(__name__)
 CORS(app)
@@ -54,7 +55,7 @@ def betterSplit(image):
 
     replace_all_bounding(result['regions'])
 
-    circles, squares, diamonds, triangles = img2.clearImg(text_bounding,image)
+    symbols = img2.clearImg(text_bounding,image)
 
     lines = {}
 
@@ -126,10 +127,7 @@ def betterSplit(image):
                 except:
                     pass
 
-    print("c",len(circles),"t",len(triangles),"s",len(squares),"d",len(diamonds))
-    print(squares)
-
-    for i in circles:
+    '''for i in circles:
         for j in reciept['items']:
             if abs(int(j[2])-i) < 8:
                 j.append("circle")
@@ -147,14 +145,22 @@ def betterSplit(image):
     for i in diamonds:
         for j in reciept['items']:
             if abs(int(j[2])-i) < 8:
-                j.append("diamond")
+                j.append("diamond")'''
+
+    for i in range(len(symbols)):
+    	for j in symbols[i]:
+    		y = j[1]
+    		for k in reciept['items']:
+    			if abs(int(j[2])-y) < 8:
+    				j.append(str(i))
 
     for i in reciept['items']:
         print(i)
         i.pop(2)
         print(i)
 
+    cv2.waitKey()
 
     return reciept
-betterSplit("http://i.imgur.com/kdP86KK.jpg")
+betterSplit("https://lh3.googleusercontent.com/Fk6kBU5TwHtP7QF6L2DOEEMRfpMFVyaMuPRtw0wHthuskSZT5Z0iBcGYAOgRuNGPxRVEbuKAUe99BC6xFvCsB3e4j8HGTiO6re7fOpStj1322qWGwkbsYiB3UzXwRzpKRzW_PoJY7-w40Ntiho2ojIPaWv0XeT2clmNcBYlFSsedQmZFQ4P1q6epozC01wc5r2gX5HXGKdohUww0i5Bg_8laoc0RSrzcL6Cq2TNkno7oyIvHAfcGNzo5r3LZaQduQUNx3HtKPeULKohAgtfeG7H2CsqMp8pLJdL9r2CqGRo4PjWVqk7uFJLmSYf35yp-2KQvREl9IEFXgNoB4lHZmn4ldRJeoqZqfpI2Y8AspEtheDtgVdF7gb_5X-30fd44cEcMcujF2o7SJ2LHIoXXLpTdaIXNs77uFQmqqnTA8RIvele-tJu_lDUdAUc2Het2TOyjw4zpjJCVVP3LCWa2BUBiPS50WGLsTpjMINZi_HVb8pAofLbOj1LhmdR4mKzpheALmg5cdK9qoyS_7ygQcxA2DPMOdP1n6MF7gk2j9RuPvaHEaMXuO9HIi1ta5MXOxQoBky5EUvS7FuHlUAQeAdLLsAfS4qLP458cDVXY6ocYWIbh=w713-h950-no")
 #app.run(host="0.0.0.0")

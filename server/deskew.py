@@ -3,6 +3,7 @@ import numpy as np
 import imutils
 import requests
 import base64
+import urllib
 
 def order_points(pts):
 	# initialzie a list of coordinates that will be ordered
@@ -81,7 +82,10 @@ def deskew(url):
 	# in the image
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	gray = cv2.GaussianBlur(gray, (5, 5), 0)
-	edged = cv2.Canny(gray, 75, 200)
+	edged = cv2.Canny(gray, 10, 100)
+
+	#cv2.imshow("hi", edged)
+	#cv2.waitKey()
 
 	# find the contours in the edged image, keeping only the
 	# largest ones, and initialize the screen contour
@@ -98,12 +102,13 @@ def deskew(url):
 		# can assume that we have found our screen
 		if len(approx) == 4:
 			screenCnt = approx
+			print("HIIII")
 			break
 	 
 	# show the contour (outline) of the piece of paper
 	cv2.drawContours(image, [screenCnt], -1, (0, 255, 0), 2)
 	cv2.imshow("Outline", image)
-	cv2.waitKey(0)
+	#cv2.waitKey(0)
 
 	# apply the four point transform to obtain a top-down
 	# view of the original image

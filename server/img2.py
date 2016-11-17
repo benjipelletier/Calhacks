@@ -1,6 +1,6 @@
 import cv2, math
 import numpy as np
-import urllib.request
+import urllib.request as request
 
 def angle_cos(p0, p1, p2):
 	d1, d2 = (p0-p1).astype('float'), (p2-p1).astype('float')
@@ -8,7 +8,7 @@ def angle_cos(p0, p1, p2):
 
 def clearImg(bounds,url):
 
-	resp = urllib.request.urlopen(url)
+	resp = request.urlopen(url)
 	image = np.asarray(bytearray(resp.read()), dtype="uint8")
 	img = cv2.imdecode(image, cv2.IMREAD_COLOR)
 	b = cv2.imdecode(image, cv2.IMREAD_COLOR)
@@ -17,6 +17,7 @@ def clearImg(bounds,url):
 	#b = cv2.imread("res.png")
 	for i in bounds:
 		cv2.rectangle(img,(int(i[0]), int(i[1])),(int(i[0])+int(i[2]),int(i[1])+int(i[3])),(255,255,255), -1)
+	cv2.imshow("wee", img)
 	img = cv2.medianBlur(img,5)
 	img = cv2.GaussianBlur(img, (5,5), 0)
 	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -75,7 +76,7 @@ def clearImg(bounds,url):
 		for j in i:
 			cv2.rectangle(b, (j[0], j[1]), (j[0]+j[2], j[1]+j[3]), (255,0,255))
 
-	#cv2.imshow("hi", b)
+	cv2.imshow("hi", b)
 	#cv2.waitKey()
 
 	print("total list length", len(symbols))
@@ -84,4 +85,4 @@ def clearImg(bounds,url):
 
 	return symbols		
 
-clearImg(1,1)
+#clearImg(1,1)
